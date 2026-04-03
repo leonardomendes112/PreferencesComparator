@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optibus Preference Comparison Report</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Optibus Preference Comparison Report</p>
+          <h1>Optibus preference comparison report</h1>
+          <p class="hero-copy">
+            Upload the previous and updated preference files in JSON or YAML to prepare
+            a professional summary showing what was added, removed, and updated.
+          </p>
+        </div>
+        <div class="hero-card">
+          <div class="stat">
+            <span class="stat-label">Style</span>
+            <strong>Client-ready change summary</strong>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Export</span>
+            <strong>Professional PDF layout</strong>
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="panel automation-panel no-print">
+          <div class="panel-header">
+            <div>
+              <p class="section-label">Quick Import</p>
+              <h2>Send JSON directly from Optibus</h2>
+            </div>
+          </div>
+          <p class="hero-copy compact-copy">
+            Use these bookmarklets while the Optibus preferences JSON is open on screen.
+            They read the visible editor content and send it straight into this report.
+          </p>
+          <div class="bookmarklet-actions">
+            <button id="copy-previous-bookmarklet" class="secondary">Copy Previous Bookmarklet</button>
+            <button id="copy-updated-bookmarklet" class="secondary">Copy Updated Bookmarklet</button>
+            <button id="refresh-imports" class="ghost">Refresh Imported Data</button>
+          </div>
+          <div id="import-status" class="import-status">Waiting for imported Optibus JSON.</div>
+        </section>
+
+        <section class="panel input-panel no-print">
+          <div class="panel-header">
+            <div>
+              <p class="section-label">Inputs</p>
+              <h2>Load preference snapshots</h2>
+            </div>
+            <div class="actions">
+              <button id="compare-btn" class="primary">Compare Files</button>
+              <button id="print-btn" class="secondary" disabled>Download PDF</button>
+              <button id="reset-btn" class="ghost">Reset</button>
+            </div>
+          </div>
+
+          <div class="input-grid">
+            <section class="input-card">
+              <div class="input-card-header">
+                <h3>Previous Version</h3>
+                <label class="file-label">
+                  <span>Select File</span>
+                  <input id="old-file" type="file" accept=".json,.yaml,.yml,application/json,text/yaml,application/x-yaml" />
+                </label>
+              </div>
+              <label class="url-label" for="old-url">Or load from link</label>
+              <input
+                id="old-url"
+                class="url-input"
+                type="url"
+                placeholder="https://example.com/preferences-previous.json"
+              />
+              <p id="old-file-name" class="file-name">No file selected</p>
+              <textarea
+                id="old-json"
+                spellcheck="false"
+                placeholder='Paste the previous version JSON or YAML here if you do not want to upload a file.'
+              ></textarea>
+            </section>
+
+            <section class="input-card">
+              <div class="input-card-header">
+                <h3>Updated Version</h3>
+                <label class="file-label">
+                  <span>Select File</span>
+                  <input id="new-file" type="file" accept=".json,.yaml,.yml,application/json,text/yaml,application/x-yaml" />
+                </label>
+              </div>
+              <label class="url-label" for="new-url">Or load from link</label>
+              <input
+                id="new-url"
+                class="url-input"
+                type="url"
+                placeholder="https://example.com/preferences-updated.json"
+              />
+              <p id="new-file-name" class="file-name">No file selected</p>
+              <textarea
+                id="new-json"
+                spellcheck="false"
+                placeholder='Paste the updated version JSON or YAML here if you do not want to upload a file.'
+              ></textarea>
+            </section>
+          </div>
+
+          <div id="error-banner" class="error-banner hidden" role="alert"></div>
+        </section>
+
+        <section id="report" class="panel report-panel">
+          <div class="panel-header">
+            <div>
+              <p class="section-label">Report</p>
+              <h2>Preferences change summary</h2>
+            </div>
+            <div id="report-meta" class="report-meta hidden"></div>
+          </div>
+
+          <div id="report-cover" class="report-cover hidden">
+            <div>
+              <p class="cover-label">Client Report</p>
+              <h3>Optibus Preference Comparison Report</h3>
+              <p class="cover-copy">
+                This document outlines the preference differences identified between the
+                previous and updated Optibus preference files provided for review.
+              </p>
+            </div>
+            <div id="report-period" class="report-period"></div>
+          </div>
+
+          <div id="empty-state" class="empty-state">
+            <h3>No report generated yet</h3>
+            <p>Load two JSON files, then click Compare Files to generate the report.</p>
+          </div>
+
+          <div id="results" class="hidden">
+            <section class="summary-grid">
+              <article class="summary-card summary-added">
+                <span class="summary-number" id="added-count">0</span>
+                <span class="summary-label">Added Preferences</span>
+              </article>
+              <article class="summary-card summary-removed">
+                <span class="summary-number" id="removed-count">0</span>
+                <span class="summary-label">Removed Preferences</span>
+              </article>
+              <article class="summary-card summary-changed">
+                <span class="summary-number" id="changed-count">0</span>
+                <span class="summary-label">Updated Preferences</span>
+              </article>
+            </section>
+
+            <section class="result-group executive-group">
+              <div class="result-header">
+                <h3>Executive Summary</h3>
+              </div>
+              <div id="executive-summary" class="result-list"></div>
+            </section>
+
+            <section class="results-columns">
+              <article class="result-group">
+                <div class="result-header">
+                  <h3>Added Preferences</h3>
+                  <span id="added-total-pill" class="pill">0</span>
+                </div>
+                <div id="added-list" class="result-list"></div>
+              </article>
+
+              <article class="result-group">
+                <div class="result-header">
+                  <h3>Removed Preferences</h3>
+                  <span id="removed-total-pill" class="pill">0</span>
+                </div>
+                <div id="removed-list" class="result-list"></div>
+              </article>
+            </section>
+
+            <section class="result-group changed-group">
+              <div class="result-header">
+                <h3>Updated Preferences</h3>
+                <span id="changed-total-pill" class="pill">0</span>
+              </div>
+              <div id="changed-list" class="result-list"></div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <template id="entry-template">
+      <article class="entry-card">
+        <div class="entry-card-header">
+          <div>
+            <h4 class="entry-title"></h4>
+            <p class="entry-path"></p>
+          </div>
+          <span class="entry-badge"></span>
+        </div>
+        <div class="entry-body"></div>
+      </article>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>
