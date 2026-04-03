@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Optibus Preference Report</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 16px;
+        width: 340px;
+        font: 14px/1.4 "Segoe UI", Arial, sans-serif;
+        color: #1f2430;
+        background: #faf7f1;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      p {
+        margin: 0 0 12px;
+        color: #5e6573;
+      }
+      .buttons {
+        display: grid;
+        gap: 10px;
+      }
+      .muted {
+        color: #5e6573;
+        font-size: 12px;
+        margin-top: 10px;
+      }
+      button {
+        border: 0;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .primary {
+        background: #0f766e;
+        color: white;
+      }
+      .secondary {
+        background: #ece6d8;
+        color: #1f2430;
+      }
+      .ghost {
+        background: #ffffff;
+        color: #1f2430;
+        border: 1px solid #ddd4c3;
+      }
+      .status {
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: white;
+        border: 1px solid #ddd4c3;
+        color: #5e6573;
+        min-height: 40px;
+      }
+      .status.error {
+        color: #991b1b;
+      }
+      .status.success {
+        color: #166534;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Preference Report</h1>
+    <p>Use this on the open Optibus preferences editor page.</p>
+    <div class="buttons">
+      <button id="set-previous" class="primary">Set as Previous</button>
+      <button id="set-updated" class="secondary">Set as Updated</button>
+      <button id="generate-report" class="ghost">Generate PDF Report</button>
+      <button id="open-settings" class="ghost">Open Settings</button>
+    </div>
+    <div id="status" class="status">Ready.</div>
+    <div id="slots" class="muted">Previous: empty | Updated: empty</div>
+    <script src="popup.js"></script>
+  </body>
+</html>

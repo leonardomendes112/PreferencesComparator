@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Optibus Preference Importer",
+  "version": "1.0.0",
+  "description": "Send the visible Optibus preferences JSON or YAML from the current tab to the local comparison app.",
+  "permissions": [
+    "activeTab",
+    "downloads",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*",
+    "https://*.optibus.co/*"
+  ],
+  "action": {
+    "default_title": "Optibus Preference Importer",
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html"
+}
